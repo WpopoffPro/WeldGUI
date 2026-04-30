@@ -1,6 +1,8 @@
 # WeldGUI
 
-``game.HttpGet("``
+```lua
+loadstring(game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/loader.luau"))()
+```
 
 This script is made by using *multiple* references
 
