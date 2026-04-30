@@ -7,7 +7,8 @@ if src == "" then
   	Text = "WeldGUI is currently loading.";
 	  Duration = 5;
   })
-src = game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau", false)
+-- src = game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau", false)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau"))()
 end
 
-loadstring(src)()
+-- loadstring(src)()
