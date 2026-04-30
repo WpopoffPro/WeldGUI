@@ -6,7 +6,7 @@ Title = "WeldGUI System";
 Text = "WeldGUI is currently running.";
 Duration = 3;
 })
-src = game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau?token=GHSAT0AAAAAAD34EMCVIK7H365GNIRGJ2DW2PTFINA", false)
+src = game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau", false)
 end
 
 loadstring(src)()
