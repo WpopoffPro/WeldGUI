@@ -1,11 +1,12 @@
 local src = ""
 local CoreGui = game:GetService("StarterGui")
 
-CoreGui:SetCore("SendNotification", {
-Title = "WeldGUI System";
-Text = "WeldGUI is currently running.";
-Duration = 3;
-})
+if src == "" then
+  CoreGui:SetCore("SendNotification", {
+  	Title = "WeldCore";
+  	Text = "WeldGUI is currently loading.";
+	  Duration = 5;
+  })
 src = game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau", false)
 end
 
