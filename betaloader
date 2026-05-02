@@ -1,14 +1,6 @@
 
 -- Hey! just an warning but YOU'RE USING BETA LOADER so if you're stuck on loading the WeldGui then try using Normal WeldGui Loader
 
-if isfolder and makefolder and writefile and readfile then
-	if not isfolder("WeldCore") then
-		makefolder("WeldCore")
-		makefolder("WeldCore/Asset")
-		writefile("WeldCore/Asset/Yes.txt", "Test"))()")
-	end
-end
-
 local src = ""
 local Gui = game:GetService("StarterGui")
 local CoreGui = game:GetService("CoreGui")
