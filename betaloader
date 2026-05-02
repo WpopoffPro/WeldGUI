@@ -1,0 +1,41 @@
+
+if isfolder and makefolder and writefile and readfile then
+	if not isfolder("WeldCore") then
+		makefolder("WeldCore")
+		makefolder("WeldCore/Asset")
+		writefile("WeldCore/Asset/Yes.txt", "Test"))()")
+	end
+end
+
+local src = ""
+local Gui = game:GetService("StarterGui")
+local CoreGui = game:GetService("CoreGui")
+
+-- Creating the screen
+local main = Instance.new("ScreenGui")
+main.Name = "WeldIntro"
+main.Parent = CoreGui
+
+if src == "" then
+  Gui:SetCore("SendNotification", {
+  	Title = "WeldCore";
+  	Text = "WeldGUI is running!";
+	  Duration = 3;
+  })
+
+-- put this at the end of the script please!!!
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau"))()
+end
+
+-- holder for the title
+local header = Instance.new("Frame")
+header.Size = UDim2.new(0, 100, 0, 100)
+header.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+header.BorderSizePixel = 0
+header.Parent = main
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(0, 100, 0, 100)
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Parent = main
