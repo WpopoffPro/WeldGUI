@@ -43,11 +43,11 @@ local function fadeGui(targetTransparency, duration)
     
     local headerTween = TweenService:Create(header, tweenInfo, {BackgroundTransparency = targetTransparency})
     local titleTween = TweenService:Create(title, tweenInfo, {TextTransparency = targetTransparency})
-local borderTween = TweenService.Create(headerborder, tweenInfo, {Transparency = targetTransparency})
+    local borderTween = TweenService:Create(headerborder, tweenInfo, {Transparency = targetTransparency})
     
     headerTween:Play()
     titleTween:Play()
-borderTween:Play()
+    borderTween:Play()
     
     return headerTween -- Return the tween so we can wait for it if needed
 end
