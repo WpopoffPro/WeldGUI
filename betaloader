@@ -5,69 +5,128 @@ local TweenService = game:GetService("TweenService")
 local Gui = game:GetService("StarterGui")
 local CoreGui = game:GetService("CoreGui")
 
--- Creating the screen
+-- 1. Main Screen
 local main = Instance.new("ScreenGui")
 main.Name = "WeldIntro"
 main.Parent = CoreGui
+main.IgnoreGuiInset = true 
 
--- Holder for the title
 local header = Instance.new("Frame")
-local headercorner = Instance.new("UICorner")
-local headerborder = Instance.new("UIStroke")
-headerborder.Color = Color3.fromRGB(255, 255, 255)
-headerborder.Thickness = 2
-headerborder.Transparency = 1
-headerborder.Parent = header
-headercorner.CornerRadius = UDim.new(0, 4)
-headercorner.Parent = header
-header.Size = UDim2.new(0, 200, 0, 50) -- Adjusted size for visibility
-header.Position = UDim2.new(0.5, -100, 0.5, -25)
-header.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+header.Name = "Main"
+header.BackgroundColor3 = Color3.new(0.2039, 0.2039, 0.2039)
 header.BorderSizePixel = 0
+header.AnchorPoint = Vector2.new(0.5, 0.5)
+header.Position = UDim2.new(0.5, 0, 0.5, 0)
+header.Size = UDim2.new(0.5, 0, 0.5, 0) 
 header.BackgroundTransparency = 1
 header.Parent = main
 
+local aspectRatio = Instance.new("UIAspectRatioConstraint")
+aspectRatio.AspectRatio = 1.75
+aspectRatio.Parent = header
+
+local holder = Instance.new("Frame")
+holder.Name = "Holder"
+holder.Size = UDim2.new(1, 0, 1, 0)
+holder.BackgroundColor3 = Color3.new(0.1764, 0.1764, 0.1764)
+holder.BorderSizePixel = 0
+holder.ClipsDescendants = true
+holder.Parent = header
+
+local gradient = Instance.new("UIGradient")
+gradient.Rotation = 30
+gradient.Transparency = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 0),
+    NumberSequenceKeypoint.new(0.6, 0),
+    NumberSequenceKeypoint.new(0.61, 1),
+    NumberSequenceKeypoint.new(1, 1)
+})
+gradient.Parent = holder
+
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 1, 0)
-title.BackgroundTransparency = 1
+title.Name = "Title"
 title.Text = "WeldCore"
-title.Font = 20
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.SourceSansBold
+title.TextColor3 = Color3.new(1, 1, 1)
+title.BackgroundTransparency = 1
 title.TextTransparency = 1
-title.Parent = header
+title.TextScaled = true
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Position = UDim2.new(0.1, 0, 0.08, 0) 
+title.Size = UDim2.new(0.5, 0, 0.2, 0) 
+title.Parent = holder
 
---- FADE FUNCTIONS ---
+local desc = Instance.new("TextLabel")
+desc.Name = "Desc"
+desc.Text = "Ultimate Debugging Suite"
+desc.Font = Enum.Font.SourceSans
+desc.TextColor3 = Color3.new(1, 1, 1)
+desc.BackgroundTransparency = 1
+desc.TextTransparency = 1
+desc.TextScaled = true
+desc.TextXAlignment = Enum.TextXAlignment.Left
+desc.Position = UDim2.new(0.06, 0, 0.3, 0) 
+desc.Size = UDim2.new(0.6, 0, 0.1, 0) 
+desc.Parent = holder
 
-local function fadeGui(targetTransparency, duration)
-    local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+local pBar = Instance.new("Frame")
+pBar.Name = "ProgressBar"
+pBar.BackgroundColor3 = Color3.new(0.2039, 0.2039, 0.2039)
+pBar.BorderSizePixel = 0
+pBar.Position = UDim2.new(0.1, 0, 0.75, 0)
+pBar.Size = UDim2.new(0.4, 0, 0.02, 0)
+pBar.BackgroundTransparency = 1 
+pBar.Parent = holder
+
+local bar = Instance.new("Frame")
+bar.Name = "Bar"
+bar.BackgroundColor3 = Color3.new(0.2392, 0.5607, 0.8627)
+bar.BorderSizePixel = 0
+bar.Size = UDim2.new(0, 0, 1, 0) -- Start at 0 width
+bar.BackgroundTransparency = 1
+bar.Parent = pBar
+
+--- ANIMATION LOGIC ---
+
+local function playIntro()
+    local fadeInInfo = TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
     
-    local headerTween = TweenService:Create(header, tweenInfo, {BackgroundTransparency = targetTransparency})
-    local titleTween = TweenService:Create(title, tweenInfo, {TextTransparency = targetTransparency})
-    local borderTween = TweenService:Create(headerborder, tweenInfo, {Transparency = targetTransparency})
+    TweenService:Create(header, fadeInInfo, {BackgroundTransparency = 0}):Play()
+    TweenService:Create(title, fadeInInfo, {TextTransparency = 0}):Play()
+    TweenService:Create(desc, fadeInInfo, {TextTransparency = 0}):Play()
+    TweenService:Create(pBar, fadeInInfo, {BackgroundTransparency = 0}):Play()
+    TweenService:Create(bar, fadeInInfo, {BackgroundTransparency = 0}):Play()
     
-    headerTween:Play()
-    titleTween:Play()
-    borderTween:Play()
+    local fillInfo = TweenInfo.new(2.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+    local fillTween = TweenService:Create(bar, fillInfo, {Size = UDim2.new(1, 0, 1, 0)})
+    fillTween:Play()
     
-    return headerTween -- Return the tween so we can wait for it if needed
+    return fillTween
+end
+
+local function fadeOut(duration)
+    local fadeOutInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+    TweenService:Create(header, fadeOutInfo, {BackgroundTransparency = 1}):Play()
+    TweenService:Create(title, fadeOutInfo, {TextTransparency = 1}):Play()
+    TweenService:Create(desc, fadeOutInfo, {TextTransparency = 1}):Play()
+    TweenService:Create(pBar, fadeOutInfo, {BackgroundTransparency = 1}):Play()
+    local last = TweenService:Create(bar, fadeOutInfo, {BackgroundTransparency = 1})
+    last:Play()
+    return last
 end
 
 --- EXECUTION ---
+local introAnimation = playIntro()
 
--- 1. Fade In
-fadeGui(0, 1)
-
--- 2. Notification
 Gui:SetCore("SendNotification", {
     Title = "WeldCore";
     Text = "WeldGUI is running!";
     Duration = 3;
 })
 
--- 3. Optional: Fade Out after a delay
-task.wait(3)
-local lastTween = fadeGui(1, 0.5)
-lastTween.Completed:Wait()
-main:Destroy()
+introAnimation.Completed:Wait()
+task.wait(0.5)
 
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau"))()
+local endTween = fadeOut(0.5)
+endTween.Completed:Wait()
+main:Destroy()
