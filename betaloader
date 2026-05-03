@@ -58,7 +58,7 @@ title.Parent = holder
 
 local desc = Instance.new("TextLabel")
 desc.Name = "Desc"
-desc.Text = "Ultimate Debugging Suite"
+desc.Text = "Ultimate Admin Gui"
 desc.Font = Enum.Font.SourceSans
 desc.TextColor3 = Color3.new(1, 1, 1)
 desc.BackgroundTransparency = 1
