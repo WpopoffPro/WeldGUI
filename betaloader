@@ -16,6 +16,7 @@ local headercorner = Instance.new("UICorner")
 local headerborder = Instance.new("UIStroke")
 headerborder.Color = Color3.fromRGB(255, 255, 255)
 headerborder.Thickness = 2
+headerborder.Transparency = 1
 headerborder.Parent = header
 headercorner.CornerRadius = UDim.new(0, 4)
 headercorner.Parent = header
@@ -30,6 +31,7 @@ local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 1, 0)
 title.BackgroundTransparency = 1
 title.Text = "WeldCore"
+title.Font = 20
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.TextTransparency = 1
 title.Parent = header
@@ -41,9 +43,11 @@ local function fadeGui(targetTransparency, duration)
     
     local headerTween = TweenService:Create(header, tweenInfo, {BackgroundTransparency = targetTransparency})
     local titleTween = TweenService:Create(title, tweenInfo, {TextTransparency = targetTransparency})
+local borderTween = TweenService.Create(headerborder, tweenInfo, {Transparency = targetTransparency})
     
     headerTween:Play()
     titleTween:Play()
+borderTween:Play()
     
     return headerTween -- Return the tween so we can wait for it if needed
 end
@@ -51,7 +55,7 @@ end
 --- EXECUTION ---
 
 -- 1. Fade In
-fadeGui(0, 1) -- Target 0 transparency (visible) over 1.5 seconds
+fadeGui(0, 1)
 
 -- 2. Notification
 Gui:SetCore("SendNotification", {
@@ -62,8 +66,8 @@ Gui:SetCore("SendNotification", {
 
 -- 3. Optional: Fade Out after a delay
 task.wait(3)
-local lastTween = fadeGui(1, 0.5) -- Target 1 transparency (invisible)
-lastTween.Completed:Wait() -- Wait for the animation to finish before destroying
+local lastTween = fadeGui(1, 0.5)
+lastTween.Completed:Wait()
 main:Destroy()
 
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau"))()
