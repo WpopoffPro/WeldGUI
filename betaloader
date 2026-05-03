@@ -1,7 +1,7 @@
 
 -- Hey! just an warning but YOU'RE USING BETA LOADER so if you're stuck on loading the WeldGui then try using Normal WeldGui Loader
 
-local src = ""
+local TweenService = game:GetService("TweenService")
 local Gui = game:GetService("StarterGui")
 local CoreGui = game:GetService("CoreGui")
 
@@ -10,26 +10,60 @@ local main = Instance.new("ScreenGui")
 main.Name = "WeldIntro"
 main.Parent = CoreGui
 
-if src == "" then
-  Gui:SetCore("SendNotification", {
-  	Title = "WeldCore";
-  	Text = "WeldGUI is running!";
-	  Duration = 3;
-  })
-
--- put this at the end of the script please!!!
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau"))()
-end
-
--- holder for the title
+-- Holder for the title
 local header = Instance.new("Frame")
-header.Size = UDim2.new(0, 100, 0, 100)
+local headercorner = Instance.new("UICorner")
+local headerborder = Instance.new("UIStroke")
+headerborder.Color = Color3.fromRGB(255, 255, 255)
+headerborder.Thickness = 2
+headerborder.Parent = header
+headercorner.CornerRadius = UDim.new(0, 4)
+headercorner.Parent = header
+header.Size = UDim2.new(0, 200, 0, 50) -- Adjusted size for visibility
+header.Position = UDim2.new(0.5, -100, 0.5, -25)
 header.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 header.BorderSizePixel = 0
+header.BackgroundTransparency = 1
 header.Parent = main
 
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(0, 100, 0, 100)
+title.Size = UDim2.new(1, 0, 1, 0)
 title.BackgroundTransparency = 1
+title.Text = "WeldCore"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.Parent = main
+title.TextTransparency = 1
+title.Parent = header
+
+--- FADE FUNCTIONS ---
+
+local function fadeGui(targetTransparency, duration)
+    local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+    
+    local headerTween = TweenService:Create(header, tweenInfo, {BackgroundTransparency = targetTransparency})
+    local titleTween = TweenService:Create(title, tweenInfo, {TextTransparency = targetTransparency})
+    
+    headerTween:Play()
+    titleTween:Play()
+    
+    return headerTween -- Return the tween so we can wait for it if needed
+end
+
+--- EXECUTION ---
+
+-- 1. Fade In
+fadeGui(0, 1) -- Target 0 transparency (visible) over 1.5 seconds
+
+-- 2. Notification
+Gui:SetCore("SendNotification", {
+    Title = "WeldCore";
+    Text = "WeldGUI is running!";
+    Duration = 3;
+})
+
+-- 3. Optional: Fade Out after a delay
+task.wait(3)
+local lastTween = fadeGui(1, 0.5) -- Target 1 transparency (invisible)
+lastTween.Completed:Wait() -- Wait for the animation to finish before destroying
+main:Destroy()
+
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/refs/heads/main/source.luau"))()
