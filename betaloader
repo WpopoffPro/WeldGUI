@@ -2,7 +2,6 @@
 -- Hey! just an warning but YOU'RE USING BETA LOADER so if you're stuck on loading the WeldGui then try using Normal WeldGui Loader
 
 local TweenService = game:GetService("TweenService")
-local Gui = game:GetService("StarterGui")
 local CoreGui = game:GetService("CoreGui")
 
 -- 1. Main Screen
@@ -13,13 +12,16 @@ main.IgnoreGuiInset = true
 
 local header = Instance.new("Frame")
 header.Name = "Main"
-header.BackgroundColor3 = Color3.new(0.2039, 0.2039, 0.2039)
+header.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 header.BorderSizePixel = 0
 header.AnchorPoint = Vector2.new(0.5, 0.5)
 header.Position = UDim2.new(0.5, 0, 0.5, 0)
 header.Size = UDim2.new(0.5, 0, 0.5, 0) 
 header.BackgroundTransparency = 1
 header.Parent = main
+
+local headercorner = Instance.new("UICorner")
+headercorner.Parent = header
 
 local aspectRatio = Instance.new("UIAspectRatioConstraint")
 aspectRatio.AspectRatio = 1.75
@@ -33,15 +35,8 @@ holder.BorderSizePixel = 0
 holder.ClipsDescendants = true
 holder.Parent = header
 
-local gradient = Instance.new("UIGradient")
-gradient.Rotation = 30
-gradient.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 0),
-    NumberSequenceKeypoint.new(0.6, 0),
-    NumberSequenceKeypoint.new(0.61, 1),
-    NumberSequenceKeypoint.new(1, 1)
-})
-gradient.Parent = holder
+local holdercorner = Instance.new("UICorner")
+holdercorner.Parent = holder
 
 local title = Instance.new("TextLabel")
 title.Name = "Title"
@@ -51,8 +46,7 @@ title.TextColor3 = Color3.new(1, 1, 1)
 title.BackgroundTransparency = 1
 title.TextTransparency = 1
 title.TextScaled = true
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.Position = UDim2.new(0.1, 0, 0.08, 0) 
+title.Position = UDim2.new(0.25, 0, 0.08, 0) 
 title.Size = UDim2.new(0.5, 0, 0.2, 0) 
 title.Parent = holder
 
@@ -64,7 +58,6 @@ desc.TextColor3 = Color3.new(1, 1, 1)
 desc.BackgroundTransparency = 1
 desc.TextTransparency = 1
 desc.TextScaled = true
-desc.TextXAlignment = Enum.TextXAlignment.Left
 desc.Position = UDim2.new(0.06, 0, 0.3, 0) 
 desc.Size = UDim2.new(0.6, 0, 0.1, 0) 
 desc.Parent = holder
@@ -90,17 +83,17 @@ bar.Parent = pBar
 
 local function playIntro()
     local fadeInInfo = TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
-    
+
     TweenService:Create(header, fadeInInfo, {BackgroundTransparency = 0}):Play()
     TweenService:Create(title, fadeInInfo, {TextTransparency = 0}):Play()
     TweenService:Create(desc, fadeInInfo, {TextTransparency = 0}):Play()
     TweenService:Create(pBar, fadeInInfo, {BackgroundTransparency = 0}):Play()
     TweenService:Create(bar, fadeInInfo, {BackgroundTransparency = 0}):Play()
-    
+
     local fillInfo = TweenInfo.new(2.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
     local fillTween = TweenService:Create(bar, fillInfo, {Size = UDim2.new(1, 0, 1, 0)})
     fillTween:Play()
-    
+
     return fillTween
 end
 
@@ -118,14 +111,10 @@ end
 --- EXECUTION ---
 local introAnimation = playIntro()
 
-Gui:SetCore("SendNotification", {
-    Title = "WeldCore";
-    Text = "WeldGUI is running!";
-    Duration = 3;
-})
-
 introAnimation.Completed:Wait()
 task.wait(0.5)
+
+error("yahoo")
 
 local endTween = fadeOut(0.5)
 endTween.Completed:Wait()
