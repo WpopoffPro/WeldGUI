@@ -6,7 +6,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/WpopoffPro/WeldGUI/re
 
 This script is made by using *multiple* references
 
-# Why is it *keyless*?
+# Update Log:
 
-- it's free
-- i used multiple *references* and *AI*
+- Added Update Log
+- Updated BETALOADER
